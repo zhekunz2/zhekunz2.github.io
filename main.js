@@ -322,6 +322,38 @@ function drawThirdScatterPlot(max_price) {
             .attr("transform", "rotate(-90, -40, " + height / 2 + ")")
             .text("Selling Price / Present Price");
 
+        // const medianData = d3.nest().key(function (d) {
+        //     return d.Year;
+        // }).rollup(function (v) {
+        //     return d3.median(v, function (d) {
+        //         return d.Selling_Price / d.Present_Price;
+        //     }).entries(filteredData);
+        // });
+
+        const nestedData = d3.nest()
+            .key(d => d.Year)
+            .rollup(values => d3.median(values, d => d.Selling_Price / d.Present_Price))
+            .entries(filteredData);
+
+        // Extract the grouped data and convert Year back to a number
+        const medianData = nestedData.map(d => ({
+            Year: +d.key,
+            Median_Ratio: d.value,
+        }));
+
+        medianData.sort((a, b) => a.Year - b.Year);
+        // Draw line chart
+        const line = d3.line()
+            .x(d => xScale(d.Year))
+            .y(d => yScale(d.Median_Ratio));
+        svg.append("path")
+            .datum(medianData)
+            .attr("class", "line")
+            .attr("d", line)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 2);
+
         // Add d3-annotation for the insight
         const annotation = d3.annotation()
             .type(d3.annotationLabel)
@@ -332,7 +364,7 @@ function drawThirdScatterPlot(max_price) {
                     wrap: 150 // Adjust the text wrap width as needed
                 },
                 x: xScale(2013), // x-coordinate of the annotation
-                y: yScale(0.6),    // y-coordinate of the annotation
+                y: yScale(0.56),    // y-coordinate of the annotation
                 dx: 110,            // Adjustment to the x-coordinate (horizontal position)
                 dy: 98,           // Adjustment to the y-coordinate (vertical position)
             }]);
