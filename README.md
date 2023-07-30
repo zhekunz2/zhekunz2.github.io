@@ -1,1 +1,2 @@
-# zhekunz2.github.io
+# CS416 Data visualization project
+Used car price slideshow
