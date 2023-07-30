@@ -1,1 +1,21 @@
-Hello World
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Used Car Price Visualization</title>
+</head>
+<body>
+  <div id="chart-container"></div>
+  <button id="next-button">Next</button> <!-- Button to move to the next slide -->
+  <button id="prev-button">Preivous</button> <!-- Button to move to the prev slide -->
+  <div class="parameter-controls">
+    <label for="maxSlider">Present Price Under:</label>
+    <input type="range" name="mySlider" id=mySlider min="1" max="95" value="95">
+    <span id="sliderValue">95,000$</span>
+  </div>
+
+  <!-- Include the necessary JavaScript libraries -->
+  <script src='https://d3js.org/d3.v5.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js'></script>
+  <script src="main.js"></script>
+</body>
+</html>
